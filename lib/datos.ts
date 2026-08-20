@@ -1,10 +1,10 @@
 import type { MetricasSocio, Socio, Trabajador } from "./tipos";
 import { SOCIO_DEMO } from "./demo-socio";
+import { saldoFlotante } from "./saldo";
 import {
   estadoDe,
   recompensaGanada,
   recompensaPendiente,
-  TECHO_POR_TRABAJADOR,
 } from "./recompensas";
 
 /* ------------------------------------------------------------------ *
@@ -120,6 +120,9 @@ function generarTrabajadores(
       nDepositos,
       primeraRemesa: nDepositos > 0 && sorteoRemesa < 0.35 + q * 0.4,
       primerPagoPresencial: nDepositos > 0 && sorteoPresencial < 0.6,
+      // Derivado de valores ya existentes: añadir un sorteo aquí correría el
+      // flujo del PRNG y descalibraría los totales del programa.
+      saldo: saldoFlotante(sorteoTarifa, nDepositos),
     });
   }
   return out;
@@ -207,21 +210,7 @@ export function metricasDe(s: Socio): MetricasSocio {
     tasaRegistro,
     tasaActivacion,
     depositosPorActivo,
-    /**
-     * Valor ≠ volumen. Un socio de 120 empleados con 8% de activación vale
-     * menos que uno de 10 con 70%. Pesamos calidad de activación y constancia
-     * de depósitos, escalado por volumen real de cuentas activas.
-     */
-    puntajeValor:
-      activos === 0
-        ? 0
-        : Math.round(
-            (tasaActivacion * 45 +
-              Math.min(depositosPorActivo / 6, 1) * 35 +
-              Math.min(ganadas / (ts.length * TECHO_POR_TRABAJADOR || 1), 1) * 20) *
-              Math.min(1 + Math.log10(activos) / 2, 2) *
-              10,
-          ) / 10,
+    saldoTotal: ts.reduce((n, t) => n + t.saldo, 0),
   };
 }
 
@@ -240,12 +229,15 @@ export function socioPorId(id: string): Socio | undefined {
 
 export function resumenPrograma() {
   const ms = SOCIOS.map((s) => METRICAS[s.id]);
+  const saldoTotal = ms.reduce((n, m) => n + m.saldoTotal, 0);
   const enviados = ms.reduce((n, m) => n + m.referidosEnviados, 0);
   const registrados = ms.reduce((n, m) => n + m.registrados, 0);
   const activos = ms.reduce((n, m) => n + m.activos, 0);
   return {
     socios: SOCIOS.length,
+    sociosConRegistro: ms.filter((m) => m.registrados > 0).length,
     sociosActivos: ms.filter((m) => m.activos > 0).length,
+    saldoTotal,
     enviados,
     registrados,
     activos,
@@ -256,4 +248,25 @@ export function resumenPrograma() {
     convRegistro: enviados ? registrados / enviados : 0,
     convActivacion: registrados ? activos / registrados : 0,
   };
+}
+
+/**
+ * Últimos tres meses del programa. Se deriva de los totales actuales con
+ * factores fijos: agosto es el estado real de los datos y los meses previos
+ * reconstruyen la rampa de crecimiento.
+ */
+export function serieMensual() {
+  const r = resumenPrograma();
+  const saldoPromedio = r.activos ? r.saldoTotal / r.activos : 0;
+  const meses: { mes: string; activas: number; saldoPromedio: number; remesas: number }[] = [
+    { mes: "Junio 2026", fa: 0.71, fs: 0.88, fr: 0.26 },
+    { mes: "Julio 2026", fa: 0.86, fs: 0.94, fr: 0.34 },
+    { mes: "Agosto 2026", fa: 1, fs: 1, fr: 0.4 },
+  ].map(({ mes, fa, fs, fr }) => ({
+    mes,
+    activas: Math.round(r.activos * fa),
+    saldoPromedio: Math.round(saldoPromedio * fs),
+    remesas: Math.round(r.remesas * fr),
+  }));
+  return meses;
 }

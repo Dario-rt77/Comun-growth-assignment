@@ -20,6 +20,8 @@ export type Trabajador = {
   nDepositos: number;
   primeraRemesa: boolean;
   primerPagoPresencial: boolean;
+  /** Saldo flotante en la cuenta Común. */
+  saldo: number;
   dias?: Dia[];
 };
 
@@ -50,5 +52,5 @@ export type MetricasSocio = {
   tasaRegistro: number;
   tasaActivacion: number;
   depositosPorActivo: number;
-  puntajeValor: number;
+  saldoTotal: number;
 };

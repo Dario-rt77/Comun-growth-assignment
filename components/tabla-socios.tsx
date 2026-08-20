@@ -15,10 +15,10 @@ export type Fila = {
   depositos: number;
   ganadas: number;
   tasaActivacion: number;
-  puntajeValor: number;
+  saldoTotal: number;
 };
 
-type Columna = "empresa" | "enviados" | "activos" | "tasaActivacion" | "ganadas" | "puntajeValor";
+type Columna = "empresa" | "enviados" | "activos" | "tasaActivacion" | "ganadas" | "saldoTotal";
 
 const COLUMNAS: { clave: Columna; titulo: string; numerica: boolean }[] = [
   { clave: "empresa", titulo: "Socio", numerica: false },
@@ -26,14 +26,14 @@ const COLUMNAS: { clave: Columna; titulo: string; numerica: boolean }[] = [
   { clave: "activos", titulo: "Cuentas activas", numerica: true },
   { clave: "tasaActivacion", titulo: "Activación", numerica: true },
   { clave: "ganadas", titulo: "Recompensas", numerica: true },
-  { clave: "puntajeValor", titulo: "Puntaje de valor", numerica: true },
+  { clave: "saldoTotal", titulo: "Balance total en cuentas", numerica: true },
 ];
 
 const POR_PAGINA = 12;
 
 export function TablaSocios({ filas }: { filas: Fila[] }) {
   const [busqueda, setBusqueda] = useState("");
-  const [orden, setOrden] = useState<Columna>("puntajeValor");
+  const [orden, setOrden] = useState<Columna>("saldoTotal");
   const [pagina, setPagina] = useState(0);
 
   const filtradas = useMemo(() => {
@@ -119,10 +119,8 @@ export function TablaSocios({ filas }: { filas: Fila[] }) {
                 <td className="px-4 py-3 text-right tabular-nums font-semibold text-verde">
                   {formatoUSD(f.ganadas)}
                 </td>
-                <td className="px-4 py-3 text-right">
-                  <span className="inline-block rounded-full bg-lima px-3 py-1 text-xs font-extrabold tabular-nums text-verde">
-                    {f.puntajeValor.toFixed(1)}
-                  </span>
+                <td className="px-4 py-3 text-right tabular-nums font-semibold text-verde">
+                  {formatoUSD(f.saldoTotal)}
                 </td>
               </tr>
             ))}

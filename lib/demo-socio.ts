@@ -1,4 +1,5 @@
 import type { Dia, Socio, Trabajador } from "./tipos";
+import { saldoFlotante } from "./saldo";
 
 export const CODIGO_DEMO = "GPR-4471";
 
@@ -61,6 +62,7 @@ const trabajadores: Trabajador[] = CUADRILLA.map((s, i) => ({
   nDepositos: s.nDepositos,
   primeraRemesa: s.primeraRemesa,
   primerPagoPresencial: s.primerPagoPresencial,
+  saldo: saldoFlotante(s.tarifaHora, s.nDepositos),
   dias: semana(s.horas, s.pagados),
 }));
 
