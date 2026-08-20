@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { FormularioSocio } from "@/components/formulario-socio";
 import { BotonLink, LogoComun, Tarjeta } from "@/components/ui";
 import {
@@ -42,19 +43,33 @@ export default function PaginaSocios() {
       </header>
 
       <section className="bg-lima px-6 py-14">
-        <div className="mx-auto max-w-5xl">
-          <p className="text-sm font-semibold uppercase tracking-widest text-verde/60">
-            Programa para socios constructores
-          </p>
-          <h1 className="titular mt-3 max-w-2xl text-4xl sm:text-5xl">
-            Tu cuadrilla cobra más fácil. Tú administras tus pagos mejor y ganas
-            hasta $40 USD por trabajador.
-          </h1>
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-verde/80">
-            Ayuda a tus trabajadores a abrir una cuenta bancaria en Estados
-            Unidos, sin necesidad de Seguro Social, y facilita tus operaciones en
-            el día a día. Deja el efectivo en el pasado.
-          </p>
+        <div className="mx-auto grid max-w-5xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-widest text-verde/60">
+              Programa para socios constructores
+            </p>
+            <h1 className="titular mt-3 text-4xl sm:text-5xl">
+              Tu cuadrilla cobra más fácil. Tú administras tus pagos mejor y ganas
+              hasta $40 USD por trabajador.
+            </h1>
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-verde/80">
+              Ayuda a tus trabajadores a abrir una cuenta bancaria en Estados
+              Unidos, sin necesidad de Seguro Social, y facilita tus operaciones en
+              el día a día. Deja el efectivo en el pasado.
+            </p>
+          </div>
+
+          <div className="overflow-hidden rounded-3xl bg-white">
+            <Image
+              src="/Partner.png"
+              alt="Subcontratista de construcción con casco y chaleco reflectante"
+              width={1402}
+              height={1122}
+              priority
+              sizes="(min-width: 1024px) 460px, 100vw"
+              className="h-auto w-full"
+            />
+          </div>
         </div>
       </section>
 
