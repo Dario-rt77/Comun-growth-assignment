@@ -12,23 +12,30 @@ import {
 const BENEFICIOS = [
   {
     Icono: IconoBanco,
-    titulo: "Tu cuenta en EE. UU. en minutos",
+    titulo: "Tu cuenta en EE.UU. en minutos",
     texto: "Sin número de Seguro Social y sin saldo mínimo. Solo tu identificación.",
   },
   {
-    Icono: IconoTarjeta,
-    titulo: "Tarjeta de débito gratis",
-    texto: "Úsala en más de 61 millones de comercios, sin comisiones mensuales.",
-  },
-  {
     Icono: IconoGlobo,
-    titulo: "Manda dinero a tu país fácil",
-    texto: "Remesas a toda Latinoamérica desde la app. La primera es gratis.",
+    titulo: "Manda dinero a tu familia fácil y rápido",
+    texto: (
+      <>
+        Remesas a toda Latinoamérica desde la app por solo $2.99.{" "}
+        <strong className="font-bold text-verde">
+          ¡La primera te la damos gratis!
+        </strong>
+      </>
+    ),
   },
   {
     Icono: IconoCandado,
     titulo: "Tus datos 100% privados",
     texto: "Tu información es tuya. Nadie más tiene acceso a ella.",
+  },
+  {
+    Icono: IconoTarjeta,
+    titulo: "Tarjeta de débito Visa gratis",
+    texto: "Úsala en más de 61 millones de comercios, sin comisiones mensuales.",
   },
 ];
 
@@ -44,7 +51,9 @@ export default async function PaginaReferido({
   return (
     <main className="mx-auto min-h-dvh max-w-lg bg-crema pb-16">
       <header className="flex items-center justify-center border-b border-gris-borde bg-white px-5 py-4">
-        <LogoComun />
+        <a href="https://www.comun.app">
+          <LogoComun />
+        </a>
       </header>
 
       {socio ? (
@@ -67,8 +76,12 @@ export default async function PaginaReferido({
           en tus manos.
         </h1>
         <p className="mt-4 text-lg leading-relaxed text-gris-texto">
-          Abre tu cuenta bancaria en Estados Unidos desde tu teléfono. Cobra tu
-          pago hasta 2 días antes y manda dinero a tu familia sin filas.
+          Abre tu cuenta bancaria en Estados Unidos, en minutos, desde tu
+          teléfono, sin necesidad de Seguro Social.
+        </p>
+        <p className="mt-3 text-lg leading-relaxed text-gris-texto">
+          ¡Cobra tu pago hasta 2 días antes y manda dinero a tu familia
+          directamente desde la App!
         </p>
       </section>
 
@@ -93,10 +106,11 @@ export default async function PaginaReferido({
             Por abrir tu cuenta
           </p>
           <p className="mt-2 text-2xl font-extrabold leading-tight text-verde">
-            Tu primera remesa gratis + ${PREMIO_TITULAR_COMIDA} de regalo
+            Tu primera remesa es gratis y te damos ${PREMIO_TITULAR_COMIDA} USD en tu
+            primera compra física
           </p>
           <p className="mt-2 text-sm leading-relaxed text-verde/75">
-            Te invitamos tu primera comida pagada con Común.
+            ¡Sal a comer algo y reclama los ${PREMIO_TITULAR_COMIDA} USD!
           </p>
         </div>
       </section>

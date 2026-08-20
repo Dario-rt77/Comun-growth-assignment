@@ -28,8 +28,8 @@ export default async function ListoPagina({
           {primerNombre ? `¡Listo, ${primerNombre}!` : "¡Listo!"}
         </h1>
         <p className="mt-4 text-lg leading-relaxed text-gris-texto">
-          Recibimos tus datos. Te mandamos un mensaje de texto para terminar de
-          abrir tu cuenta.
+          Recibimos tus datos. Te mandamos un mensaje de texto para que
+          descargues la app y termines de abrir tu cuenta.
         </p>
 
         {socio && (
