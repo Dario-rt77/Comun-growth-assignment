@@ -62,15 +62,16 @@ Todo lo que sigue es supuesto, no dato real de Común.
 - Segmento alcanzable inicial: mercados con alta densidad latina — TX, CA, FL, AZ, GA, NC, IL, NV.
 
 **Embudo** (calibrado en los datos de prueba)
-- Invitación → cuenta creada: **~49%**
-- Cuenta creada → primer depósito: **~59%**
-- Distribución de calidad deliberadamente sesgada: la mayoría de los socios activa poco y
-  unos pocos concentran el valor. Un embudo uniforme haría ver el programa mejor de lo que
-  sería en la realidad.
+- Invitación → cuenta creada: **~90%**
+- Cuenta creada → primer depósito: **~88%**
+- La calidad por socio sigue variando (la activación por empresa va de ~66% a ~97%), así que
+  el ranking por valor sigue teniendo sentido. Aun así, estas tasas están calibradas contra la
+  meta pública de **6,820 cuentas activas**: son agresivas para un programa de referidos real y
+  deberían tratarse como escenario objetivo, no como base de proyección.
 
 **Economía unitaria**
 - Costo máximo por cuenta totalmente activada: **$40** (socio) + **$10** (titular) = **$50**.
-- El costo real observado en los datos de prueba es menor (**~$29 por cuenta activa**), porque
+- El costo real observado en los datos de prueba es menor (**~$25 por cuenta activa**), porque
   no todas las cuentas llegan a todos los hitos. Ese es el punto: el programa solo paga
   completo cuando entrega valor completo.
 - El pago está estructurado como **CAC diferido**: nada se paga por adelantado y todo se paga
@@ -104,7 +105,7 @@ con un código inválido, el formulario sigue funcionando y el campo queda edita
 
 ## Limitaciones del prototipo
 
-- **Sin base de datos.** Los 1,000 socios y ~8,655 trabajadores se generan de forma determinista
+- **Sin base de datos.** Los 1,000 socios y 8,655 trabajadores invitados se generan de forma determinista
   con una semilla fija (`lib/datos.ts`), así que los números son idénticos en cada carga.
 - **Sin autenticación real.** «Iniciar sesión» entra directo al panel de Gómez Plomería y
   Renovaciones LLC.

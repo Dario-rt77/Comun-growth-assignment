@@ -68,41 +68,71 @@ function calidad(r: () => number): number {
   return Math.pow(r(), 2.2);
 }
 
+/**
+ * Tasas base del embudo. Se extraen como parámetros para poder calibrarlas
+ * contra la meta pública de cuentas activas sin tocar el resto del generador.
+ */
+export const BASE_REGISTRO = 0.826;
+export const BASE_ACTIVACION = 0.802;
+/** Escala cuántos empleados de la cuadrilla reciben invitación. */
+export const FACTOR_REFERIDOS = 1.1593;
+
 function generarTrabajadores(
   r: () => number,
   socioId: string,
   n: number,
   q: number,
+  baseRegistro = BASE_REGISTRO,
+  baseActivacion = BASE_ACTIVACION,
 ): Trabajador[] {
-  const tasaRegistro = 0.2 + q * 0.65;
-  const tasaActivacion = 0.25 + q * 0.6;
+  const tasaRegistro = baseRegistro + q * 0.17;
+  const tasaActivacion = baseActivacion + q * 0.18;
   const out: Trabajador[] = [];
 
   for (let i = 0; i < n; i++) {
-    const cuentaCreada = r() < tasaRegistro;
-    const activo = cuentaCreada && r() < tasaActivacion;
-    const nDepositos = activo ? enteroEntre(r, 1, 2 + Math.round(q * 12)) : 0;
-    const primeraRemesa = nDepositos > 0 && r() < 0.35 + q * 0.4;
+    // Todos los sorteos se consumen siempre, aunque no se usen: así el flujo
+    // del PRNG no cambia al recalibrar las tasas y el total de invitaciones
+    // se mantiene estable.
+    const sorteoRegistro = r();
+    const sorteoActivacion = r();
+    const sorteoDepositos = enteroEntre(r, 1, 2 + Math.round(q * 12));
+    const sorteoRemesa = r();
+    const sorteoPresencial = r();
+    const sorteoTelefono1 = enteroEntre(r, 200, 989);
+    const sorteoTelefono2 = enteroEntre(r, 200, 999);
+    const sorteoTelefono3 = enteroEntre(r, 0, 9999);
+    const sorteoCuenta = enteroEntre(r, 0, 9999);
+    const sorteoTarifa = enteroEntre(r, 18, 34);
+    const nombre = `${elige(r, NOMBRES)} ${elige(r, APELLIDOS)}`;
+
+    const cuentaCreada = sorteoRegistro < tasaRegistro;
+    const activo = cuentaCreada && sorteoActivacion < tasaActivacion;
+    const nDepositos = activo ? sorteoDepositos : 0;
 
     out.push({
       id: `${socioId}-t${i + 1}`,
       socioId,
-      nombre: `${elige(r, NOMBRES)} ${elige(r, APELLIDOS)}`,
-      telefono: `(${enteroEntre(r, 200, 989)}) ${enteroEntre(r, 200, 999)}-${String(
-        enteroEntre(r, 0, 9999),
-      ).padStart(4, "0")}`,
-      cuenta: cuentaCreada ? `•••• ${String(enteroEntre(r, 0, 9999)).padStart(4, "0")}` : null,
-      tarifaHora: enteroEntre(r, 18, 34),
+      nombre,
+      telefono: `(${sorteoTelefono1}) ${sorteoTelefono2}-${String(sorteoTelefono3).padStart(4, "0")}`,
+      cuenta: cuentaCreada ? `•••• ${String(sorteoCuenta).padStart(4, "0")}` : null,
+      tarifaHora: sorteoTarifa,
       cuentaCreada,
       nDepositos,
-      primeraRemesa,
-      primerPagoPresencial: nDepositos > 0 && r() < 0.6,
+      primeraRemesa: nDepositos > 0 && sorteoRemesa < 0.35 + q * 0.4,
+      primerPagoPresencial: nDepositos > 0 && sorteoPresencial < 0.6,
     });
   }
   return out;
 }
 
-function generarSocios(cantidad: number): Socio[] {
+export function generarSocios(
+  cantidad: number,
+  baseRegistro = BASE_REGISTRO,
+  baseActivacion = BASE_ACTIVACION,
+  factorReferidos = FACTOR_REFERIDOS,
+): Socio[] {
+  // Dos flujos independientes: así calibrar las tasas del embudo no altera
+  // el tamaño de las cuadrillas ni el total de invitaciones.
   const r = mulberry32(20260820);
   const socios: Socio[] = [];
 
@@ -117,7 +147,10 @@ function generarSocios(cantidad: number): Socio[] {
     const nEmpleados = r() < 0.9 ? enteroEntre(r, 3, 14) : enteroEntre(r, 15, 120);
 
     // No todos los empleados reciben invitación.
-    const referidos = Math.max(1, Math.round(nEmpleados * (0.35 + q * 0.6)));
+    const referidos = Math.max(
+      1,
+      Math.round(nEmpleados * (0.35 + q * 0.6) * factorReferidos),
+    );
     const id = `s${String(i + 1).padStart(4, "0")}`;
     const codigo = `${apellido.slice(0, 3).toUpperCase().replace(/[^A-Z]/g, "X")}-${enteroEntre(r, 1000, 9999)}`;
 
@@ -133,7 +166,14 @@ function generarSocios(cantidad: number): Socio[] {
       altaFecha: new Date(
         Date.UTC(2026, enteroEntre(r, 0, 7), enteroEntre(r, 1, 28)),
       ).toISOString().slice(0, 10),
-      trabajadores: generarTrabajadores(r, id, referidos, q),
+      trabajadores: generarTrabajadores(
+        mulberry32(0x9e3779b9 ^ (i + 1)),
+        id,
+        referidos,
+        q,
+        baseRegistro,
+        baseActivacion,
+      ),
     });
   }
   return socios;
