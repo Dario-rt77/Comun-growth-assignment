@@ -60,25 +60,22 @@ export default function PaginaSocios() {
       <section className="mx-auto max-w-5xl px-6 py-14">
         <h2 className="titular text-3xl">Cómo funciona</h2>
 
-        <ol className="mt-7 grid gap-5 sm:grid-cols-3">
+        <ol className="mt-7 space-y-4">
           {PASOS.map((paso, i) => (
-            <li key={paso} className="rounded-tarjeta border border-gris-borde bg-white p-6">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-verde text-base font-extrabold text-white">
-                {i + 1}
-              </span>
-              <p className="mt-4 text-sm leading-relaxed text-verde">{paso}</p>
+            <li
+              key={paso}
+              className="text-base leading-relaxed text-verde sm:text-lg"
+              style={{ paddingLeft: `${i * 1.75}rem` }}
+            >
+              <span className="font-extrabold">{i + 1}.</span> {paso}
             </li>
           ))}
         </ol>
 
         <p className="mt-5 rounded-tarjeta bg-lima px-5 py-4 text-center text-lg font-extrabold text-verde">
-          ¡Y listo, empiezas a ganar y ellos a tener cuenta bancaria!
+          ¡Y listo, empiezas a ganar y ellos consiguen su cuenta bancaria!
         </p>
 
-        <p className="mt-5 rounded-tarjeta border border-gris-borde bg-white px-5 py-4 text-sm leading-relaxed text-gris-texto">
-          Además, puedes llevar el control de las horas y lo que le has pagado a
-          tus trabajadores directamente en la plataforma.
-        </p>
         <div className="mt-10 grid gap-5 sm:grid-cols-3">
           {ESCALONES.map((e, i) => (
             <Tarjeta key={e.titulo}>
@@ -96,6 +93,10 @@ export default function PaginaSocios() {
           <strong>Y tu trabajador también gana:</strong> abre su cuenta
           bancaria, su primera remesa es gratis y le damos $10 cuando hace su
           primera compra con la tarjeta Común.
+        </p>
+        <p className="mx-auto mt-8 max-w-3xl text-center text-lg font-extrabold leading-snug text-verde-claro">
+          Además, puedes llevar el control de las horas y lo que le has pagado a
+          tus trabajadores directamente en la plataforma.
         </p>
       </section>
 
