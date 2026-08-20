@@ -59,7 +59,7 @@ export default function PaginaSocios() {
             </p>
           </div>
 
-          <div className="flex justify-center lg:-mt-14 lg:justify-end lg:self-start">
+          <div className="flex justify-center lg:-mb-14 lg:justify-end lg:self-end">
             <Image
               src="/Partner.png"
               alt="Subcontratista de construcción con casco y chaleco reflectante"
