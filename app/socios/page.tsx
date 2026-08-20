@@ -47,13 +47,13 @@ export default function PaginaSocios() {
             Programa para socios constructores
           </p>
           <h1 className="titular mt-3 max-w-2xl text-4xl sm:text-5xl">
-            Tu cuadrilla cobra más fácil. Tú administras tus pagos mejor, dejas
-            el efectivo en el pasado, y ganas hasta $40 USD por trabajador.
+            Tu cuadrilla cobra más fácil. Tú administras tus pagos mejor y ganas
+            hasta $40 USD por trabajador.
           </h1>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-verde/80">
             Ayuda a tus trabajadores a abrir una cuenta bancaria en Estados
             Unidos, sin necesidad de Seguro Social, y facilita tus operaciones en
-            el día a día.
+            el día a día. Deja el efectivo en el pasado.
           </p>
         </div>
       </section>
