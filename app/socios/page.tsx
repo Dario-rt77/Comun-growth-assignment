@@ -47,12 +47,13 @@ export default function PaginaSocios() {
             Programa para socios constructores
           </p>
           <h1 className="titular mt-3 max-w-2xl text-4xl sm:text-5xl">
-            Tu cuadrilla cobra más fácil. Tú ganas hasta $40 USD por trabajador.
+            Tu cuadrilla cobra más fácil. Tú administras tus pagos mejor, dejas
+            el efectivo en el pasado, y ganas hasta $40 USD por trabajador.
           </h1>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-verde/80">
             Ayuda a tus trabajadores a abrir una cuenta bancaria en Estados
-            Unidos, sin necesidad de Seguro Social, y recibe una recompensa por
-            cada cuenta y por los pagos que les envíes.
+            Unidos, sin necesidad de Seguro Social, y facilita tus operaciones en
+            el día a día.
           </p>
         </div>
       </section>
@@ -72,7 +73,7 @@ export default function PaginaSocios() {
           ))}
         </ol>
 
-        <p className="mt-5 rounded-tarjeta bg-lima px-5 py-4 text-center text-lg font-extrabold text-verde">
+        <p className="mt-12 rounded-tarjeta bg-lima px-5 py-4 text-center text-lg font-extrabold text-verde">
           ¡Y listo, empiezas a ganar y ellos consiguen su cuenta bancaria!
         </p>
 
@@ -94,9 +95,9 @@ export default function PaginaSocios() {
           bancaria, su primera remesa es gratis y le damos $10 cuando hace su
           primera compra con la tarjeta Común.
         </p>
-        <p className="mx-auto mt-14 max-w-3xl text-center text-lg font-normal leading-relaxed text-verde-claro">
-          Además, puedes llevar el control de las horas y lo que le has pagado a
-          tus trabajadores directamente en la plataforma.
+        <p className="mx-auto mt-14 max-w-3xl text-center text-lg font-extrabold leading-relaxed text-verde-claro">
+          ¡Lleva el control de las horas y lo que le has pagado a tus
+          trabajadores directamente en la plataforma!
         </p>
       </section>
 
