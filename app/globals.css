@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  /* Marca Común — extraídos de brand_UI_examples/ */
+  --color-verde: #0f3d2e;
+  --color-verde-claro: #1a5741;
+  --color-lima: #e4f87f;
+  --color-lima-suave: #f0fbb8;
+  --color-crema: #fdfcf5;
+  --color-gris: #f4f4f2;
+  --color-gris-borde: #e6e6e2;
+  --color-gris-texto: #6b6f6d;
+  --color-azul: #2563eb;
+  --color-menta: #dff5e8;
+  --color-ambar: #fdf2d8;
+  --color-exito: #16a34a;
+
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-tarjeta: 1.25rem;
+}
+
+html {
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-crema);
+  color: var(--color-verde);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Titulares de marca: muy bold, tracking cerrado */
+.titular {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--color-verde);
+}
