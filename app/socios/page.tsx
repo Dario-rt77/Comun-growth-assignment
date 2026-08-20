@@ -66,8 +66,8 @@ export default function PaginaSocios() {
               width={823}
               height={1105}
               priority
-              sizes="(min-width: 1024px) 280px, 210px"
-              className="h-auto w-full max-w-[210px] lg:max-w-[280px]"
+              sizes="(min-width: 1024px) 322px, 242px"
+              className="h-auto w-full max-w-[242px] lg:max-w-[322px]"
             />
           </div>
         </div>
