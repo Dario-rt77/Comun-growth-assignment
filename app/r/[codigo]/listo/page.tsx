@@ -16,7 +16,9 @@ export default async function ListoPagina({
   return (
     <main className="mx-auto flex min-h-dvh max-w-lg flex-col bg-crema">
       <header className="flex items-center justify-center border-b border-gris-borde bg-white px-5 py-4">
-        <LogoComun />
+        <a href="https://www.comun.app">
+          <LogoComun />
+        </a>
       </header>
 
       <div className="flex flex-1 flex-col items-center justify-center px-6 py-12 text-center">
