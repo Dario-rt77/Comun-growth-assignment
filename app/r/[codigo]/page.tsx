@@ -2,25 +2,31 @@ import { socioPorCodigo } from "@/lib/datos";
 import { FormularioReferido } from "@/components/formulario-referido";
 import { LogoComun } from "@/components/ui";
 import { PREMIO_TITULAR_COMIDA } from "@/lib/recompensas";
+import {
+  IconoBanco,
+  IconoCandado,
+  IconoGlobo,
+  IconoTarjeta,
+} from "@/components/iconos";
 
 const BENEFICIOS = [
   {
-    icono: "🏦",
+    Icono: IconoBanco,
     titulo: "Tu cuenta en EE. UU. en minutos",
     texto: "Sin número de Seguro Social y sin saldo mínimo. Solo tu identificación.",
   },
   {
-    icono: "💳",
+    Icono: IconoTarjeta,
     titulo: "Tarjeta de débito gratis",
     texto: "Úsala en más de 61 millones de comercios, sin comisiones mensuales.",
   },
   {
-    icono: "🌎",
+    Icono: IconoGlobo,
     titulo: "Manda dinero a tu país fácil",
     texto: "Remesas a toda Latinoamérica desde la app. La primera es gratis.",
   },
   {
-    icono: "🔒",
+    Icono: IconoCandado,
     titulo: "Tus datos 100% privados",
     texto: "Tu información es tuya. Nadie más tiene acceso a ella.",
   },
@@ -72,9 +78,7 @@ export default async function PaginaReferido({
             key={b.titulo}
             className="flex gap-4 rounded-tarjeta border border-gris-borde bg-white p-4"
           >
-            <span className="text-2xl leading-none" aria-hidden>
-              {b.icono}
-            </span>
+            <b.Icono className="mt-0.5" />
             <div>
               <p className="font-bold text-verde">{b.titulo}</p>
               <p className="mt-0.5 text-sm leading-relaxed text-gris-texto">{b.texto}</p>
