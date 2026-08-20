@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo, useState } from "react";
 import { SOCIO_DEMO } from "@/lib/demo-socio";
 import type { Trabajador } from "@/lib/tipos";
@@ -15,14 +14,13 @@ import {
 } from "@/lib/recompensas";
 import { BarraProgreso, Insignia, LogoComun, Stat, Tarjeta } from "./ui";
 import { ModalTrabajador } from "./modal-trabajador";
+import { ModalInvitar } from "./modal-invitar";
 
 export function PanelSocio() {
   const socio = SOCIO_DEMO;
   const [trabajadores, setTrabajadores] = useState<Trabajador[]>(socio.trabajadores);
   const [abierto, setAbierto] = useState<string | null>(null);
-  const [copiado, setCopiado] = useState(false);
-
-  const enlace = `comun.app/r/${socio.codigo}`;
+  const [invitando, setInvitando] = useState(false);
 
   const m = useMemo(() => {
     const registrados = trabajadores.filter((t) => t.cuentaCreada).length;
@@ -37,21 +35,25 @@ export function PanelSocio() {
       ganadas,
       techo: trabajadores.length * TECHO_POR_TRABAJADOR,
       adeudado: trabajadores.reduce((s, t) => s + dineroAdeudado(t), 0),
+      pagado: trabajadores.reduce(
+        (s, t) =>
+          s +
+          (t.dias ?? [])
+            .filter((d) => d.pagado)
+            .reduce((n, d) => n + d.horas * t.tarifaHora, 0),
+        0,
+      ),
+      pagosPendientes: trabajadores.filter((t) => dineroAdeudado(t) > 0).length,
     };
   }, [trabajadores]);
 
   const actual = trabajadores.find((t) => t.id === abierto) ?? null;
 
-  function copiar() {
-    navigator.clipboard?.writeText(`https://${enlace}`);
-    setCopiado(true);
-    setTimeout(() => setCopiado(false), 1800);
-  }
 
   return (
     <main className="min-h-dvh bg-crema pb-20">
       <header className="flex items-center justify-between border-b border-gris-borde bg-white px-6 py-4">
-        <Link href="/"><LogoComun /></Link>
+        <a href="https://www.comun.app"><LogoComun /></a>
         <span className="rounded-full bg-gris px-4 py-1.5 text-sm font-semibold text-gris-texto">
           Portal de socios
         </span>
@@ -68,10 +70,10 @@ export function PanelSocio() {
             Tu código: {socio.codigo}
           </span>
           <button
-            onClick={copiar}
-            className="rounded-full border-2 border-gris-borde bg-white px-4 py-2 text-sm font-semibold text-verde transition hover:border-verde"
+            onClick={() => setInvitando(true)}
+            className="rounded-full bg-lima px-5 py-2 text-sm font-bold text-verde transition hover:brightness-95"
           >
-            {copiado ? "✓ Copiado" : `Copiar enlace · ${enlace}`}
+            Invitar a cuenta Común
           </button>
         </div>
 
@@ -104,11 +106,17 @@ export function PanelSocio() {
 
           <Tarjeta>
             <h2 className="text-lg font-extrabold text-verde">Nómina de la semana</h2>
-            <p className="mt-4 text-4xl font-extrabold text-verde">{formatoUSD(m.adeudado)}</p>
-            <p className="mt-1 text-sm text-gris-texto">pendiente de pagar a tu cuadrilla</p>
-            <p className="mt-4 text-sm leading-relaxed text-gris-texto">
-              Llevas <strong className="text-verde">{m.depositos}</strong> depósitos
-              directos hechos a cuentas Común.
+
+            <p className="mt-4 text-sm text-gris-texto">Ya pagado</p>
+            <p className="text-3xl font-extrabold text-verde">{formatoUSD(m.pagado)}</p>
+
+            <p className="mt-4 text-sm text-gris-texto">Pendiente por pagar</p>
+            <p className="text-3xl font-extrabold text-verde">{formatoUSD(m.adeudado)}</p>
+
+            <p className="mt-5 text-sm leading-relaxed text-gris-texto">
+              Te faltan{" "}
+              <strong className="text-verde">{m.pagosPendientes} pagos</strong>{" "}
+              por enviar esta semana.
             </p>
           </Tarjeta>
         </div>
@@ -119,7 +127,7 @@ export function PanelSocio() {
         </p>
 
         <div className="mt-5 overflow-hidden rounded-tarjeta border border-gris-borde bg-white">
-          <div className="hidden grid-cols-[2fr_1.5fr_auto_auto_auto] gap-4 border-b border-gris-borde bg-gris px-5 py-3 text-xs font-bold uppercase tracking-wide text-gris-texto lg:grid">
+          <div className="hidden grid-cols-[minmax(0,2fr)_minmax(0,1.5fr)_6rem_8rem_8rem] gap-4 border-b border-gris-borde bg-gris px-5 py-3 text-xs font-bold uppercase tracking-wide text-gris-texto lg:grid">
             <span>Trabajador</span>
             <span>Estado</span>
             <span className="text-right">Depósitos</span>
@@ -133,7 +141,7 @@ export function PanelSocio() {
               <button
                 key={t.id}
                 onClick={() => setAbierto(t.id)}
-                className="grid w-full grid-cols-1 gap-2 border-b border-gris-borde px-5 py-4 text-left transition last:border-0 hover:bg-crema lg:grid-cols-[2fr_1.5fr_auto_auto_auto] lg:items-center lg:gap-4"
+                className="grid w-full grid-cols-1 gap-2 border-b border-gris-borde px-5 py-4 text-left transition last:border-0 hover:bg-crema lg:grid-cols-[minmax(0,2fr)_minmax(0,1.5fr)_6rem_8rem_8rem] lg:items-center lg:gap-4"
               >
                 <div className="min-w-0">
                   <p className="truncate font-bold text-verde">{t.nombre}</p>
@@ -162,6 +170,10 @@ export function PanelSocio() {
           })}
         </div>
       </div>
+
+      {invitando && (
+        <ModalInvitar empresa={socio.empresa} onCerrar={() => setInvitando(false)} />
+      )}
 
       {actual && (
         <ModalTrabajador

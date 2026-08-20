@@ -100,7 +100,7 @@ export function ModalTrabajador({
 
           <section>
             <div className="mb-3 flex items-baseline justify-between">
-              <h3 className="font-extrabold text-verde">Semana del 10 al 15 de agosto</h3>
+              <h3 className="font-extrabold text-verde">Semana del 10 al 16 de agosto</h3>
               <span className="text-xs text-gris-texto">Marca los días ya pagados</span>
             </div>
 
