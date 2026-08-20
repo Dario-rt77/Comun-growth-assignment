@@ -65,7 +65,7 @@ export default function PaginaSocios() {
             <li
               key={paso}
               className="text-base leading-relaxed text-verde sm:text-lg"
-              style={{ paddingLeft: `${i * 1.75}rem` }}
+              style={{ paddingLeft: `${2.5 + i * 1.75}rem` }}
             >
               <span className="font-extrabold">{i + 1}.</span> {paso}
             </li>
@@ -94,7 +94,7 @@ export default function PaginaSocios() {
           bancaria, su primera remesa es gratis y le damos $10 cuando hace su
           primera compra con la tarjeta Común.
         </p>
-        <p className="mx-auto mt-8 max-w-3xl text-center text-lg font-extrabold leading-snug text-verde-claro">
+        <p className="mx-auto mt-14 max-w-3xl text-center text-lg font-normal leading-relaxed text-verde-claro">
           Además, puedes llevar el control de las horas y lo que le has pagado a
           tus trabajadores directamente en la plataforma.
         </p>
