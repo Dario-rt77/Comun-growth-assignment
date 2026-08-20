@@ -1,13 +1,17 @@
-import Link from "next/link";
 import { FormularioSocio } from "@/components/formulario-socio";
 import { BotonLink, LogoComun, Tarjeta } from "@/components/ui";
 import {
   PREMIO_CUARTO_DEPOSITO,
   PREMIO_PRIMER_DEPOSITO,
   PREMIO_PRIMERA_REMESA,
-  TECHO_POR_TRABAJADOR,
   formatoUSD,
 } from "@/lib/recompensas";
+
+const PASOS = [
+  "Creas tu cuenta constructor en esta misma página.",
+  "Refieres a tus trabajadores y ellos reciben un mensaje de texto para abrir su cuenta bancaria con Común.",
+  "Ellos descargan la App, abren la cuenta en minutos y tú les envías sus pagos.",
+];
 
 const ESCALONES = [
   {
@@ -31,7 +35,7 @@ export default function PaginaSocios() {
   return (
     <main className="min-h-dvh bg-crema">
       <header className="flex items-center justify-between border-b border-gris-borde bg-white px-6 py-4">
-        <Link href="/"><LogoComun /></Link>
+        <a href="https://www.comun.app"><LogoComun /></a>
         <BotonLink href="/socios/panel" variante="contorno" className="px-5 py-2 text-sm">
           Iniciar sesión
         </BotonLink>
@@ -40,22 +44,42 @@ export default function PaginaSocios() {
       <section className="bg-lima px-6 py-14">
         <div className="mx-auto max-w-5xl">
           <p className="text-sm font-semibold uppercase tracking-widest text-verde/60">
-            Programa de Socios
+            Programa para socios constructores
           </p>
           <h1 className="titular mt-3 max-w-2xl text-4xl sm:text-5xl">
-            Tu cuadrilla cobra mejor. Tú ganas hasta {formatoUSD(TECHO_POR_TRABAJADOR)} por trabajador.
+            Tu cuadrilla cobra más fácil. Tú ganas hasta $40 USD por trabajador.
           </h1>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-verde/80">
-            Ayuda a tu gente a abrir una cuenta bancaria en Estados Unidos —
-            sin Seguro Social — y recibe una recompensa por cada uno que empiece
-            a cobrar contigo.
+            Ayuda a tus trabajadores a abrir una cuenta bancaria en Estados
+            Unidos, sin necesidad de Seguro Social, y recibe una recompensa por
+            cada cuenta y por los pagos que les envíes.
           </p>
         </div>
       </section>
 
       <section className="mx-auto max-w-5xl px-6 py-14">
-        <h2 className="titular text-3xl">Cómo ganas</h2>
-        <div className="mt-7 grid gap-5 sm:grid-cols-3">
+        <h2 className="titular text-3xl">Cómo funciona</h2>
+
+        <ol className="mt-7 grid gap-5 sm:grid-cols-3">
+          {PASOS.map((paso, i) => (
+            <li key={paso} className="rounded-tarjeta border border-gris-borde bg-white p-6">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-verde text-base font-extrabold text-white">
+                {i + 1}
+              </span>
+              <p className="mt-4 text-sm leading-relaxed text-verde">{paso}</p>
+            </li>
+          ))}
+        </ol>
+
+        <p className="mt-5 rounded-tarjeta bg-lima px-5 py-4 text-center text-lg font-extrabold text-verde">
+          ¡Y listo, empiezas a ganar y ellos a tener cuenta bancaria!
+        </p>
+
+        <p className="mt-5 rounded-tarjeta border border-gris-borde bg-white px-5 py-4 text-sm leading-relaxed text-gris-texto">
+          Además, puedes llevar el control de las horas y lo que le has pagado a
+          tus trabajadores directamente en la plataforma.
+        </p>
+        <div className="mt-10 grid gap-5 sm:grid-cols-3">
           {ESCALONES.map((e, i) => (
             <Tarjeta key={e.titulo}>
               <div className="flex items-baseline gap-2">
@@ -69,9 +93,9 @@ export default function PaginaSocios() {
           ))}
         </div>
         <p className="mt-6 rounded-tarjeta bg-menta px-5 py-4 text-sm leading-relaxed text-verde">
-          <strong>Y tu trabajador también gana:</strong> su primera remesa es
-          gratis y le damos $10 cuando hace su primera compra con la tarjeta
-          Común. Le llamamos «te invitamos tu primera comida».
+          <strong>Y tu trabajador también gana:</strong> abre su cuenta
+          bancaria, su primera remesa es gratis y le damos $10 cuando hace su
+          primera compra con la tarjeta Común.
         </p>
       </section>
 
