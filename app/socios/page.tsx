@@ -59,15 +59,15 @@ export default function PaginaSocios() {
             </p>
           </div>
 
-          <div className="overflow-hidden rounded-3xl bg-white">
+          <div className="flex justify-center lg:justify-end">
             <Image
               src="/Partner.png"
               alt="Subcontratista de construcción con casco y chaleco reflectante"
-              width={1402}
-              height={1122}
+              width={823}
+              height={1105}
               priority
-              sizes="(min-width: 1024px) 460px, 100vw"
-              className="h-auto w-full"
+              sizes="(min-width: 1024px) 400px, 300px"
+              className="h-auto w-full max-w-[300px] lg:max-w-[400px]"
             />
           </div>
         </div>
